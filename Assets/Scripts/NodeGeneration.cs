@@ -10,6 +10,9 @@ public class NodeGeneration : MonoBehaviour {
 
 	
 	//Properties
+	public GameObject GODObject;
+	private GOD ohmyGOD;
+	
 	public GameObject startNode;
 	public GameObject currentNode;
 	private GameObject lastGeneratedNode;
@@ -18,6 +21,8 @@ public class NodeGeneration : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentNode = lastGeneratedNode = startNode;
+		
+		ohmyGOD = GODObject.GetComponent<GOD>();
 	}
 	
 	// Update is called once per frame
@@ -33,6 +38,7 @@ public class NodeGeneration : MonoBehaviour {
 										   lastGeneratedNode.transform.position.y + Random.Range(1, 4),
 										   0);
 			tempNode = (GameObject)Instantiate(NodeNormalPrefab, tempPos, Quaternion.identity);
+			tempNode.GetComponent<Node>().GODObject = GODObject;
 		}
 		lastGeneratedNode = tempNode;
 	}
