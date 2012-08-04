@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\NodeGeneration.cs">
+    <Files>
+      <File FileName="Assets\Scripts\NodeGeneration.cs" Line="32" Column="4" />
+      <File FileName="Assets\Scripts\RangeCircle.cs" Line="7" Column="9" />
+      <File FileName="Assets\Scripts\GOD.cs" Line="7" Column="23" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
