@@ -12,29 +12,29 @@ public class RangeCircle : MonoBehaviour {
 	public GameObject GODObject;
 	private GOD ohmyGOD;
 	
-	public float currentRange;
+	public float currentRange;  //radius of circle/sphere
 	private Vector3 decreaseVector;
+	private Vector3 lastestMaxScale;
 		
 	// Use this for initialization
 	void Start () {
 		ohmyGOD = GODObject.GetComponent<GOD>();
 		transform.position = ohmyGOD.NodeGenerationScript.currentNode.transform.position;
 		decreaseVector = new Vector3();
-		
-		//HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+		lastestMaxScale = transform.localScale;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-		if(currentRange > 0.3)
+		if(currentRange > 0.1)
 		{
-			decreaseVector.x = transform.localScale.x - RangeDecreaseSpeed;
-			decreaseVector.y = transform.localScale.y - RangeDecreaseSpeed;
-			decreaseVector.z = transform.localScale.z - RangeDecreaseSpeed;
+			decreaseVector.x = transform.localScale.x - RangeDecreaseSpeed * Time.deltaTime;
+			decreaseVector.y = transform.localScale.y - RangeDecreaseSpeed * Time.deltaTime;
+			decreaseVector.z = transform.localScale.z - RangeDecreaseSpeed * Time.deltaTime;
 			transform.localScale = decreaseVector;
 		}
-		currentRange=transform.localScale.magnitude;
+		currentRange=transform.localScale.x / 2;
 		
 		
 		//if(currentRange <= 0.1)
@@ -45,5 +45,6 @@ public class RangeCircle : MonoBehaviour {
 	{
 		transform.position = ohmyGOD.NodeGenerationScript.currentNode.transform.position;
 		transform.localScale *= RangeBoostForClick;
+		lastestMaxScale = transform.localScale;
 	}
 }

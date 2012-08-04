@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Node : MonoBehaviour {
 	
+	//settings
+	public bool isStartNode;
+	
 	Color inactiveColor;
 	Color activeColor;
 	
@@ -17,8 +20,11 @@ public class Node : MonoBehaviour {
 		
 		inactiveColor.r = 100;
 		activeColor.r = 255;
-		
-		isClickable= true;
+		if(isStartNode){
+			renderer.material.color = inactiveColor;
+			isClickable= false;
+		}else
+			isClickable= true;
 	}
 	
 	public void SetColorForCurrent(bool onoff){
