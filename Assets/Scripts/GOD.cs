@@ -12,11 +12,19 @@ public class GOD : MonoBehaviour {
 	public GameObject PlayerObject;
 	[HideInInspector]public Player PlayerScript;
 	
+	public GameObject ScoreCounterObject;
+	[HideInInspector]public ScoreCounter ScoreCounterScript;
+	
+	public GameObject RestartButtonObject;
+	[HideInInspector]public RestartButton RestartButtonScript;
+	
 	// Use this for initialization
 	void Start () {
 		NodeGenerationScript = NodeGeneratorObject.GetComponent<NodeGeneration>();
 		RangeCircleScript = RangeCircleObject.GetComponent<RangeCircle>();
 		PlayerScript = PlayerObject.GetComponent<Player>();
+		ScoreCounterScript = ScoreCounterObject.GetComponent<ScoreCounter>();
+		RestartButtonScript = RestartButtonObject.GetComponent<RestartButton>();
 	}
 	
 	// Update is called once per frame

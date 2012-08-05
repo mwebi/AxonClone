@@ -12,14 +12,14 @@ public class Player : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 		
-	}
+	}*/
 	
 	public void NodeClicked(Node clickedNodeScript){
 		//check if node is in the range of the circle
-		if(Vector3.Distance(ohmyGOD.NodeGenerationScript.currentNode.transform.position, clickedNodeScript.gameObject.transform.position) 
-							< ohmyGOD.RangeCircleScript.currentRange)
+		float distanceOfClickedAndCurrentNode = Vector3.Distance(ohmyGOD.NodeGenerationScript.currentNode.transform.position, clickedNodeScript.gameObject.transform.position);
+		if(distanceOfClickedAndCurrentNode < ohmyGOD.RangeCircleScript.currentRange)
 		{
 			//check if the node is clickable
 			if(clickedNodeScript.isClickable)
@@ -28,6 +28,7 @@ public class Player : MonoBehaviour {
 				ohmyGOD.NodeGenerationScript.currentNode = clickedNodeScript.gameObject;
 				ohmyGOD.NodeGenerationScript.currentNode.GetComponent<Node>().SetColorForCurrent(true);
 				ohmyGOD.RangeCircleScript.NewCurrentNode();
+				ohmyGOD.ScoreCounterScript.newScore(distanceOfClickedAndCurrentNode);
 			}
 		}
 			
