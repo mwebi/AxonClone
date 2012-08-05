@@ -23,7 +23,7 @@ public class Node : MonoBehaviour {
 		if(isStartNode){
 			renderer.material.color = inactiveColor;
 			isClickable= false;
-			ohmyGOD.NeuronLineScript.NewNodeActivated(this);
+			//ohmyGOD.NeuronLineScript.NewNodeActivated(this);
 		}else
 			isClickable= true;
 	}

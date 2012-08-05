@@ -21,6 +21,8 @@ public class GOD : MonoBehaviour {
 	public GameObject NeuronLineObject;
 	[HideInInspector]public NeuronLine NeuronLineScript;
 	
+	public GameObject NeuronLineRendererPrefab;
+	
 	// Use this for initialization
 	void Start () {
 		NodeGenerationScript = NodeGeneratorObject.GetComponent<NodeGeneration>();

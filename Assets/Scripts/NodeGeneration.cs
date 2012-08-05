@@ -15,6 +15,7 @@ public class NodeGeneration : MonoBehaviour {
 	
 	public GameObject startNode;
 	public GameObject currentNode;
+	
 	private GameObject lastGeneratedNode;
 	private GameObject tempNode;
 	private ArrayList tempNodeList;

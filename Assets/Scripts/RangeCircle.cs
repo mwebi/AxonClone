@@ -7,7 +7,7 @@ public class RangeCircle : MonoBehaviour {
 	public float RangeDecreaseSpeed;
 	public float RangeBoostForClick;
 	public float MaxRange;
-	
+	public bool doDecrease;
 	
 	//Props
 	public GameObject GODObject;
@@ -34,7 +34,7 @@ public class RangeCircle : MonoBehaviour {
 	void Update () {
 		transform.position = ohmyGOD.NodeGenerationScript.currentNode.transform.position;
 		
-		if(currentRange > 0.1)
+		if(currentRange > 0.1 && doDecrease)
 		{
 			//decreaseVector consists of a dynamic (diff of lastestMaxScale and current scale) and a fixed (RangeDecreaseSpeedVector) speed component 
 			decreaseVector = transform.localScale - (lastestMaxScale - transform.localScale)*0.5f*Time.deltaTime - RangeDecreaseSpeedVector * Time.deltaTime;
