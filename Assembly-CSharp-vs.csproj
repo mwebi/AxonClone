@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\FollowCamera.cs" />
      <Compile Include="Assets\Scripts\GOD.cs" />
+     <Compile Include="Assets\Scripts\NeuronLine.cs" />
      <Compile Include="Assets\Scripts\Node.cs" />
      <Compile Include="Assets\Scripts\NodeGeneration.cs" />
      <Compile Include="Assets\Scripts\NodeOverlapProtection.cs" />

@@ -17,6 +17,9 @@ public class GOD : MonoBehaviour {
 	
 	public GameObject RestartButtonObject;
 	[HideInInspector]public RestartButton RestartButtonScript;
+
+	public GameObject NeuronLineObject;
+	[HideInInspector]public NeuronLine NeuronLineScript;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,6 +28,7 @@ public class GOD : MonoBehaviour {
 		PlayerScript = PlayerObject.GetComponent<Player>();
 		ScoreCounterScript = ScoreCounterObject.GetComponent<ScoreCounter>();
 		RestartButtonScript = RestartButtonObject.GetComponent<RestartButton>();
+		NeuronLineScript = NeuronLineObject.GetComponent<NeuronLine>();
 	}
 	
 	// Update is called once per frame

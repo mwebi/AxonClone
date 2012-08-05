@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
 				ohmyGOD.NodeGenerationScript.currentNode.GetComponent<Node>().SetColorForCurrent(true);
 				ohmyGOD.RangeCircleScript.NewCurrentNode();
 				ohmyGOD.ScoreCounterScript.newScore(distanceOfClickedAndCurrentNode);
+				ohmyGOD.NeuronLineScript.NewNodeActivated(clickedNodeScript);
 			}
 		}
 			
