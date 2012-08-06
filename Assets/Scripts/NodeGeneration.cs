@@ -23,6 +23,7 @@ public class NodeGeneration : MonoBehaviour {
 	private Vector3 tempPos;
 	
 	private bool canGenerateNewNodes;
+	private bool firstTimeNodeGeneration;
 	
 	public static string SpecialNodeTag = "SpecialNode";
 	
@@ -35,6 +36,7 @@ public class NodeGeneration : MonoBehaviour {
 		tempPos = new Vector3();
 		
 		canGenerateNewNodes = true;
+		firstTimeNodeGeneration = true;
 	}
 	
 	// Update is called once per frame
@@ -42,10 +44,34 @@ public class NodeGeneration : MonoBehaviour {
 		//if(Vector3.Distance(currentNode.transform.position, lastGeneratedOriginNode.transform.position) < GeneratorRange)
 		if(Mathf.Abs(currentNode.transform.position.y - lastGeneratedOriginNode.transform.position.y) < GeneratorRange)
 			generateNewNodes(HowManyNodeAtATime);
+		
+		Debug.DrawRay(Vector3.zero, Vector3.one);
 	}
 	
 	public void SetCanGenerateNewNodes(bool newValue){
 		canGenerateNewNodes = newValue;
+	}
+
+	void generateSpecialFirstNode ()
+	{
+		//special case for first time node generation
+		tempPos.z = 0;
+		if(firstTimeNodeGeneration)
+		{
+			firstTimeNodeGeneration = false;
+			tempPos.x = GeneratorStartNode.transform.position.x + Random.Range(-0.1f, 0.1f);
+			tempPos.y = GeneratorStartNode.transform.position.y + Random.Range(1.5f, 2.0f);
+		}else{
+			tempPos.x = currentNode.transform.position.x + Random.Range(-0.1f, 0.1f);
+			tempPos.y = currentNode.transform.position.y + Random.Range(1.4f, 3.5f);
+			avoidOverlapping ();
+		}
+	   
+		tempNode = (GameObject)Instantiate(NodeNormalPrefab, tempPos, lastGeneratedNode.transform.rotation);
+		tempNode.tag = SpecialNodeTag;
+		tempNode.GetComponent<Node>().GODObject = GODObject;
+		
+		lastGeneratedNode = lastGeneratedOriginNode = tempNode;
 	}
 	
 	void generateNewNodes(int NodeNum){
@@ -53,24 +79,14 @@ public class NodeGeneration : MonoBehaviour {
 		if(!canGenerateNewNodes)
 			return;
 		
-		//special first node 
-		tempPos.x = currentNode.transform.position.x + Random.Range(-0.1f, 0.1f);
-		tempPos.y = currentNode.transform.position.y + Random.Range(0.9f, 1.2f);
-	    tempPos.z = 0;
-		avoidOverlapping ();
-			
-		tempNode = (GameObject)Instantiate(NodeNormalPrefab, tempPos, lastGeneratedNode.transform.rotation);
-		tempNode.tag = SpecialNodeTag;
-		tempNode.GetComponent<Node>().GODObject = GODObject;
-		
-		lastGeneratedNode = lastGeneratedOriginNode= tempNode;
+		generateSpecialFirstNode();
 		
 		for(int i=0; i < NodeNum-1; i++){
 			tempPos.x = lastGeneratedNode.transform.position.x + Random.Range(-8.5f, 8.5f);
-			tempPos.y = lastGeneratedNode.transform.position.y + Random.Range(1.2f, 3.4f);
+			tempPos.y = lastGeneratedNode.transform.position.y + Random.Range(1.1f, 4.4f);
 		    tempPos.z = 0;
 			
-			if(Vector3.Distance(tempPos, lastGeneratedNode.transform.position) < 1.4f){
+			if(Vector3.Distance(tempPos, lastGeneratedNode.transform.position) < 1.3f){
 				i--;
 				continue;
 			}
@@ -93,36 +109,36 @@ public class NodeGeneration : MonoBehaviour {
 		while(otherWasHit){
 			otherWasHit = false;
 			//up, down, left, right
-			if(Physics.Raycast(tempPos, Vector3.up, 1.2f)){
-				tempPos.y += 2.55f;
+			if(Physics.Raycast(tempPos, Vector3.up, 1.1f)){
+				tempPos.y += 1.55f;
 				otherWasHit = true;
 			}
-			else if(Physics.Raycast(tempPos, Vector3.down, 1.2f)){
+			else if(Physics.Raycast(tempPos, Vector3.down, 1.1f)){
 				tempPos.y += 1.62f;
 				otherWasHit = true;
 			}
-			else if(Physics.Raycast(tempPos, Vector3.left, 1.2f)){
+			else if(Physics.Raycast(tempPos, Vector3.left, 1.1f)){
 				tempPos.x += 1.55f;
 				otherWasHit = true;
 			}
-			else if(Physics.Raycast(tempPos, Vector3.right, 1.2f)){
+			else if(Physics.Raycast(tempPos, Vector3.right, 1.1f)){
 				tempPos.x += 2.62f;
 				otherWasHit = true;
 			}
 			//top-right, top-left, bottom-right, bottom-left
-			else if(Physics.Raycast(tempPos, Vector3.up-Vector3.left, 1.2f)){
-				tempPos.y += 2.55f;
+			else if(Physics.Raycast(tempPos, Vector3.up-Vector3.left, 1.1f)){
+				tempPos.y += 1.55f;
 				otherWasHit = true;
 			}
-			else if(Physics.Raycast(tempPos, Vector3.up-Vector3.right, 1.2f)){
+			else if(Physics.Raycast(tempPos, Vector3.up-Vector3.right, 1.1f)){
 				tempPos.y += 1.62f;
 				otherWasHit = true;
 			}
-			else if(Physics.Raycast(tempPos, Vector3.down-Vector3.left, 1.2f)){
+			else if(Physics.Raycast(tempPos, Vector3.down-Vector3.left, 1.1f)){
 				tempPos.x += 1.55f;
 				otherWasHit = true;
 			}
-			else if(Physics.Raycast(tempPos, Vector3.down-Vector3.right, 1.2f)){
+			else if(Physics.Raycast(tempPos, Vector3.down-Vector3.right, 1.1f)){
 				tempPos.x += 2.62f;
 				otherWasHit = true;
 			}
