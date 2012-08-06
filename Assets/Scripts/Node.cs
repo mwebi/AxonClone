@@ -5,34 +5,53 @@ public class Node : MonoBehaviour {
 	
 	//settings
 	public bool isStartNode;
-	
-	Color inactiveColor;
-	Color activeColor;
+	public float yOffsetForFadeOut;
+	public Material FadedMaterial;
+	public Material ClickedMaterial;
 	
 	public GameObject GODObject;
 	private GOD ohmyGOD;
 	
 	public bool isClickable;
+	private bool doFadeOut;
+	private bool doFadeToClickedMaterial;
 	
 	// Use this for initialization
 	void Start () {
 		ohmyGOD = GODObject.GetComponent<GOD>();
 		
-		inactiveColor.r = 100;
-		activeColor.r = 255;
+		
 		if(isStartNode){
-			renderer.material.color = inactiveColor;
+			renderer.material = ClickedMaterial;
 			isClickable= false;
 			//ohmyGOD.NeuronLineScript.NewNodeActivated(this);
 		}else
 			isClickable= true;
 	}
 	
+	void Update(){
+		if(transform.position.y <= ohmyGOD.NodeGenerationScript.currentNode.transform.position.y+yOffsetForFadeOut
+			&& isClickable)
+		{
+			doFadeOut = true;
+			isClickable = false;
+		}
+		fadeOut();
+		fadeToClickedMatrial();
+	}
+	
+	void fadeOut(){
+		if(doFadeOut)
+			renderer.material.Lerp(renderer.material, FadedMaterial, 0.1f);
+	}
+	
+	void fadeToClickedMatrial(){
+		if(doFadeToClickedMaterial)
+			renderer.material.Lerp(renderer.material, ClickedMaterial, 0.2f);
+	}
+	
 	public void SetColorForCurrent(bool onoff){
-		if(onoff)
-			renderer.material.color = activeColor;
-		else
-			renderer.material.color = inactiveColor;
+		doFadeToClickedMaterial = onoff;
 	}
 	
 	void OnMouseUpAsButton() {

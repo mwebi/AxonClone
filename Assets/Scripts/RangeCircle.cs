@@ -19,22 +19,34 @@ public class RangeCircle : MonoBehaviour {
 	private Vector3 RangeDecreaseSpeedVector;
 	private Vector3 RangeBoostForClickVector;
 	
+	private Vector3 currentNodePosition;
+	private float originalZValue;
 		
 	// Use this for initialization
 	void Start () {
 		ohmyGOD = GODObject.GetComponent<GOD>();
-		transform.position = ohmyGOD.NodeGenerationScript.currentNode.transform.position;
+		
 		decreaseVector = new Vector3();
 		lastestMaxScale = transform.localScale;
 		RangeDecreaseSpeedVector = new Vector3(RangeDecreaseSpeed,RangeDecreaseSpeed,RangeDecreaseSpeed);
 		RangeBoostForClickVector = new Vector3(RangeBoostForClick,RangeBoostForClick,RangeBoostForClick);
+		
+		originalZValue = transform.position.z;
+		setPositionToCurrentNode ();
+	}
+
+	void setPositionToCurrentNode ()
+	{
+		currentNodePosition = ohmyGOD.NodeGenerationScript.currentNode.transform.position;
+		currentNodePosition.z = originalZValue;
+		transform.position = currentNodePosition;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = ohmyGOD.NodeGenerationScript.currentNode.transform.position;
-		
-		if(currentRange > 0.1 && doDecrease)
+		setPositionToCurrentNode ();
+			
+		if(currentRange > 0.05 && doDecrease)
 		{
 			//decreaseVector consists of a dynamic (diff of lastestMaxScale and current scale) and a fixed (RangeDecreaseSpeedVector) speed component 
 			decreaseVector = transform.localScale - (lastestMaxScale - transform.localScale)*0.5f*Time.deltaTime - RangeDecreaseSpeedVector * Time.deltaTime;
@@ -43,7 +55,7 @@ public class RangeCircle : MonoBehaviour {
 		currentRange=transform.localScale.x / 2;
 		
 		//check for gameover
-		if(currentRange <= 0.1)
+		if(currentRange <= 0.05)
 			ohmyGOD.RestartButtonObject.SetActiveRecursively(true);
 	}
 	

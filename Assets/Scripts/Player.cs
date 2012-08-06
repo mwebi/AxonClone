@@ -24,8 +24,9 @@ public class Player : MonoBehaviour {
 			//check if the node is clickable
 			if(clickedNodeScript.isClickable)
 			{
-				ohmyGOD.NodeGenerationScript.currentNode.GetComponent<Node>().SetColorForCurrent(false);
+				//ohmyGOD.NodeGenerationScript.currentNode.GetComponent<Node>().SetColorForCurrent(false);
 				ohmyGOD.NodeGenerationScript.currentNode = clickedNodeScript.gameObject;
+				ohmyGOD.NodeGenerationScript.SetCanGenerateNewNodes(true);
 				ohmyGOD.NodeGenerationScript.currentNode.GetComponent<Node>().SetColorForCurrent(true);
 				ohmyGOD.RangeCircleScript.NewCurrentNode();
 				ohmyGOD.ScoreCounterScript.newScore(distanceOfClickedAndCurrentNode);

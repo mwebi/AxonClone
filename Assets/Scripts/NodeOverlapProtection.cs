@@ -11,10 +11,15 @@ public class NodeOverlapProtection : MonoBehaviour {
 	}
 	
 	void OnTriggerStay(Collider other) {
-		//Debug.Log("collided");
-		tempVec3.x = Random.Range(-1.1f,1.1f);
-		tempVec3.y = Random.Range(-1.1f,1.1f);
-		tempVec3.z = 0;
-		ParentNode.transform.position += tempVec3;
+		if(ParentNode.tag != NodeGeneration.SpecialNodeTag)
+			Destroy(ParentNode);
+		else if ( other.gameObject.tag != NodeGeneration.SpecialNodeTag)
+			Destroy(other.gameObject);
+		else{
+			tempVec3.x = Random.Range(-1.1f,1.1f);
+			tempVec3.y = Random.Range(-1.1f,1.1f);
+			tempVec3.z = 0;
+			ParentNode.transform.position += tempVec3;
+		}
 	}
 }

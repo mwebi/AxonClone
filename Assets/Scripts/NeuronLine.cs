@@ -5,7 +5,11 @@ public class NeuronLine : MonoBehaviour {
 	
 	//Settings
 	public float Speed;
+	public int MaxBranchNumber;
 	public float BranchSpeed;
+	public float MotherStartWidth;
+	public float MotherEndWidth;
+	public float MotherStartWidthIncreasePerNode;
 	public float BranchStartWidth;
 	public float BranchEndWidth;
 	public float CurveSpeed;
@@ -18,10 +22,10 @@ public class NeuronLine : MonoBehaviour {
 	
 	private LineRenderer NeuronLineRenderer;
 	
-	private Vector3 direction;
+	private Vector3 directionDirectFromLastNodeToNextNode;
 	private Vector3 targetDirection;
 	private Vector3 lastDirection;
-	private Vector3 currentDirection;
+	private Vector3 currentDirectionOfLine;
 	private Vector3 randomDeviation;
 	
 	private float currentSpeed;
@@ -36,6 +40,8 @@ public class NeuronLine : MonoBehaviour {
 	bool spawnedBranch;
 	int branchDepth;
 	
+	private float currentLineStartWidth;
+	
 	// Use this for initialization
 	void Start () {
 		NeuronLineRenderer = GetComponent<LineRenderer>();
@@ -48,6 +54,7 @@ public class NeuronLine : MonoBehaviour {
 			lastPosition = transform.position;
 			lastPositionToReach = lastPosition;
 			
+			currentLineStartWidth = MotherStartWidth;
 		}
 		setStartPositionAsFirstSegment();
 	}
@@ -62,21 +69,14 @@ public class NeuronLine : MonoBehaviour {
 			float distanceFromStart = Vector3.Distance(lastPositionToReach, lastPosition);
 			float distanceFromStartToEnd = Vector3.Distance(positionToReach,lastPositionToReach);
 			
-			float minThreshold;
-			float maxThreshold;
-			if(branchDepth == 0){
-				minThreshold = distanceFromStartToEnd*0.50f;
-				maxThreshold = distanceFromStartToEnd*0.25f;
-			}else{
-				minThreshold = distanceFromStartToEnd*0.40f;
-				maxThreshold = distanceFromStartToEnd*0.25f;
-			}
+			float minThreshold = distanceFromStartToEnd*Random.Range(0.3f,0.6f);
+			float maxThreshold = distanceFromStartToEnd*Random.Range(0.2f,0.3f);
 			
 			if(distanceFromStart > minThreshold
 					&& distanceToPositionToReach > maxThreshold
 					//&& Vector3.Angle(positionToReach - lastPosition, currentDirection) > 5
 					&& !spawnedBranch
-					&& branchDepth < 7
+					&& branchDepth < MaxBranchNumber
 					&& distanceFromStartToEnd > 0.1f )
 				spawnBranch();
 				
@@ -84,9 +84,9 @@ public class NeuronLine : MonoBehaviour {
 				currentSpeed = distanceToPositionToReach*Speed;
 				//newPostion = lastPosition + direction.normalized*currentSpeed*Time.deltaTime;
 				
-				currentDirection = Vector3.Lerp(currentDirection, positionToReach - lastPosition, distanceFromStart*CurveSpeed*Time.deltaTime );
+				currentDirectionOfLine = Vector3.Lerp(currentDirectionOfLine, positionToReach - lastPosition, distanceFromStart*CurveSpeed*Time.deltaTime );
 				
-				newPostion = lastPosition + currentDirection.normalized*currentSpeed*Time.deltaTime;
+				newPostion = lastPosition + currentDirectionOfLine.normalized*currentSpeed*Time.deltaTime;
 				
 				if(lastPosition != newPostion){
 					segments++;
@@ -108,11 +108,12 @@ public class NeuronLine : MonoBehaviour {
 		spawnedBranch = true;
 		GameObject newNeuronLine = (GameObject)Instantiate(ohmyGOD.NeuronLineRendererPrefab, lastPosition, Quaternion.identity);
 		
-		newNeuronLine.GetComponent<NeuronLine>().setupNewBranch(GODObject, lastPosition, currentDirection, lastDirection, lastPositionToReach , branchDepth, BranchStartWidth, BranchEndWidth);
+		newNeuronLine.GetComponent<NeuronLine>().setupNewBranch(GODObject, lastPosition, currentDirectionOfLine, lastDirection, lastPositionToReach , branchDepth, BranchStartWidth, BranchEndWidth, MaxBranchNumber);
 	}
 	
-	public void setupNewBranch(GameObject ourGOD, Vector3 currentPos, Vector3 parentLineCurrentDirection, Vector3 parentLineLastDirection, Vector3 LastNodePos ,int depthOfParent, float lineStartWidth, float lineEndWidth){
+	public void setupNewBranch(GameObject ourGOD, Vector3 currentPos, Vector3 parentLineCurrentDirection, Vector3 parentLineLastDirection, Vector3 LastNodePos ,int depthOfParent, float lineStartWidth, float lineEndWidth, int maxBranches){
 		branchDepth = depthOfParent + 1;
+		MaxBranchNumber = maxBranches;
 		spawnedBranch = false;
 		Speed = BranchSpeed;
 		CurveSpeed = BranchCurveSpeed;
@@ -125,28 +126,31 @@ public class NeuronLine : MonoBehaviour {
 		transform.position = currentPos;
 		lastPosition = currentPos;
 		
-		Vector3 randomDirection = new Vector3 ( Random.Range (-1.3f, 1.3f), Random.Range (0.3f, 0.8f), 0);
+		Vector3 randomDirection = new Vector3 ( Random.Range (-1.2f, 1.2f), Random.Range (0.3f, 0.8f), 0);
 		
 		positionToReach = currentPos + randomDirection;
 		lastPositionToReach = lastPosition;//LastNodePos;
 		
-		lastDirection = direction;
-		direction = positionToReach - lastPositionToReach;
-		currentDirection=parentLineCurrentDirection;
+		lastDirection = directionDirectFromLastNodeToNextNode;
+		directionDirectFromLastNodeToNextNode = positionToReach - lastPositionToReach;
+		currentDirectionOfLine=parentLineCurrentDirection;
 	}
 	
 	public void NewNodeActivated(Node newNodeScript){
 		lastPositionToReach = positionToReach;
 		positionToReach = newNodeScript.gameObject.transform.position;
 
-		lastDirection = direction;
-		direction = positionToReach - lastPositionToReach;
+		lastDirection = directionDirectFromLastNodeToNextNode;
+		directionDirectFromLastNodeToNextNode = positionToReach - lastPositionToReach;
 		
-		if(currentDirection == Vector3.zero)
-			currentDirection=direction;
+		if(currentDirectionOfLine == Vector3.zero)
+			currentDirectionOfLine=directionDirectFromLastNodeToNextNode;
 		
 		if(branchDepth == 0)
 			spawnedBranch = false;
+		
+		currentLineStartWidth += MotherStartWidthIncreasePerNode;
+		GetComponent<LineRenderer>().SetWidth(currentLineStartWidth, MotherEndWidth);
 	}
 	
 }
