@@ -13,6 +13,7 @@ public class FollowCamera : MonoBehaviour {
 	
 	private Vector3 CameraMovementDirection;
 	private Vector3 YOffsetVector;
+	private Vector3 currentSpeed;
 	
 	// Use this for initialization
 	void Start () {
@@ -22,6 +23,8 @@ public class FollowCamera : MonoBehaviour {
 										 ohmyGOD.NodeGenerationScript.currentNode.transform.position.y,
 										 transform.position.z);
 		YOffsetVector = new Vector3(0, YOffset, 0);
+		
+		currentSpeed = new Vector3();
 	}
 	
 	// Update is called once per frame
@@ -29,8 +32,13 @@ public class FollowCamera : MonoBehaviour {
 		CameraMovementDirection = ohmyGOD.NodeGenerationScript.currentNode.transform.position - transform.position;
 		CameraMovementDirection.z = 0;
 		if(CameraMovementDirection.magnitude > 0.05){
-			transform.position += CameraMovementDirection.normalized * CameraMovementDirection.magnitude* CameraSpeed * Time.deltaTime;
+			currentSpeed = CameraMovementDirection.normalized * CameraMovementDirection.magnitude* CameraSpeed * Time.deltaTime;
+			transform.position += currentSpeed;
 			transform.position += YOffsetVector;
 		}
+	}
+	
+	public Vector3 getCurrentSpeed(){
+		return currentSpeed;
 	}
 }

@@ -1,17 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ParalaxScroller.cs">
     <Files>
-      <File FileName="Assets\Scripts\NodeGeneration.cs" Line="28" Column="54" />
-      <File FileName="Assets\Scripts\RangeCircle.cs" Line="31" Column="15" />
+      <File FileName="Assets\Scripts\NodeGeneration.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\RangeCircle.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\GOD.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Player.cs" Line="32" Column="1" />
       <File FileName="Assets\Scripts\Node.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\NodeOverlapProtection.cs" Line="31" Column="10" />
-      <File FileName="Assets\Scripts\FollowCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\NodeOverlapProtection.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FollowCamera.cs" Line="35" Column="16" />
       <File FileName="Assets\Scripts\ScoreCounter.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\RestartButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\NeuronLine.cs" Line="153" Column="78" />
+      <File FileName="Assets\Scripts\NeuronLine.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ParalaxScroller.cs" Line="23" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
