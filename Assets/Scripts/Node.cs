@@ -24,7 +24,6 @@ public class Node : MonoBehaviour {
 		if(isStartNode){
 			renderer.material = ClickedMaterial;
 			isClickable= false;
-			//ohmyGOD.NeuronLineScript.NewNodeActivated(this);
 		}else
 			isClickable= true;
 	}
@@ -50,14 +49,12 @@ public class Node : MonoBehaviour {
 			renderer.material.Lerp(renderer.material, ClickedMaterial, 0.2f);
 	}
 	
-	public void SetColorForCurrent(bool onoff){
+	public void StartToFadeToClickedMaterial(bool onoff){
 		doFadeToClickedMaterial = onoff;
 	}
 	
 	void OnMouseUpAsButton() {
-        //SendMessage("NodeClicked", this, SendMessageOptions.DontRequireReceiver);
-		
-		ohmyGOD.PlayerScript.NodeClicked(this);
+        ohmyGOD.PlayerScript.NodeClicked(this);
 		isClickable = false;
     }
 }

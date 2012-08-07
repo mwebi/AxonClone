@@ -74,7 +74,6 @@ public class NeuronLine : MonoBehaviour {
 			
 			if(distanceFromStart > minThreshold
 					&& distanceToPositionToReach > maxThreshold
-					//&& Vector3.Angle(positionToReach - lastPosition, currentDirection) > 5
 					&& !spawnedBranch
 					&& branchDepth < MaxBranchNumber
 					&& distanceFromStartToEnd > 0.1f )
@@ -82,11 +81,13 @@ public class NeuronLine : MonoBehaviour {
 				
 			if(distanceToPositionToReach > 0.1f){
 				currentSpeed = distanceToPositionToReach*Speed;
-				//newPostion = lastPosition + direction.normalized*currentSpeed*Time.deltaTime;
 				
 				currentDirectionOfLine = Vector3.Lerp(currentDirectionOfLine, positionToReach - lastPosition, distanceFromStart*CurveSpeed*Time.deltaTime );
 				
 				newPostion = lastPosition + currentDirectionOfLine.normalized*currentSpeed*Time.deltaTime;
+				
+				//straigt line
+				//newPostion = lastPosition + direction.normalized*currentSpeed*Time.deltaTime; 
 				
 				if(lastPosition != newPostion){
 					segments++;
@@ -111,6 +112,7 @@ public class NeuronLine : MonoBehaviour {
 		newNeuronLine.GetComponent<NeuronLine>().setupNewBranch(GODObject, lastPosition, currentDirectionOfLine, lastDirection, lastPositionToReach , branchDepth, BranchStartWidth, BranchEndWidth, MaxBranchNumber);
 	}
 	
+	//is only called for child branches
 	public void setupNewBranch(GameObject ourGOD, Vector3 currentPos, Vector3 parentLineCurrentDirection, Vector3 parentLineLastDirection, Vector3 LastNodePos ,int depthOfParent, float lineStartWidth, float lineEndWidth, int maxBranches){
 		branchDepth = depthOfParent + 1;
 		MaxBranchNumber = maxBranches;
@@ -129,13 +131,14 @@ public class NeuronLine : MonoBehaviour {
 		Vector3 randomDirection = new Vector3 ( Random.Range (-1.2f, 1.2f), Random.Range (0.3f, 0.8f), 0);
 		
 		positionToReach = currentPos + randomDirection;
-		lastPositionToReach = lastPosition;//LastNodePos;
+		lastPositionToReach = lastPosition;
 		
 		lastDirection = directionDirectFromLastNodeToNextNode;
 		directionDirectFromLastNodeToNextNode = positionToReach - lastPositionToReach;
 		currentDirectionOfLine=parentLineCurrentDirection;
 	}
 	
+	//is called when the player clicks a new node in range of the circle
 	public void NewNodeActivated(Node newNodeScript){
 		lastPositionToReach = positionToReach;
 		positionToReach = newNodeScript.gameObject.transform.position;

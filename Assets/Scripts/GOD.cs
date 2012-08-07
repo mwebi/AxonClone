@@ -33,8 +33,4 @@ public class GOD : MonoBehaviour {
 		NeuronLineScript = NeuronLineObject.GetComponent<NeuronLine>();
 	}
 	
-	// Update is called once per frame
-	/*void Update () {
-	
-	}*/
 }

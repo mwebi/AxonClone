@@ -41,7 +41,6 @@ public class NodeGeneration : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//if(Vector3.Distance(currentNode.transform.position, lastGeneratedOriginNode.transform.position) < GeneratorRange)
 		if(Mathf.Abs(currentNode.transform.position.y - lastGeneratedOriginNode.transform.position.y) < GeneratorRange)
 			generateNewNodes(HowManyNodeAtATime);
 		
